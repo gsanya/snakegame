@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/css/style.css}" rel='stylesheet' type='text/css'>
+    <title>Spring Boot Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<form action="#" th:action="@{login}" th:object="${login}" method="post">
+    <div class="box">
+        <h1>Multiplayer Snake</h1>
+
+        <input name="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" th:field="*{user}"
+               type="email" value="email"/>
+
+        <input name="password" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" th:field="*{password}" type="password"
+               value="email"/>
+
+        <div class="btn"><input type="submit" value="Submit" /></div></a> <!-- End Btn -->
+<!--        <input type="submit" value="Submit" />-->
+        <div id="btn2"><input type="reset" value="Reset" /></div></a> <!-- End Btn2 -->
+<!--        <input type="reset" value="Reset" />-->
+    </div> <!-- End Box -->
+
+</form>
+
+<p>Forgot your password? <u style="color:#f1c40f;">Click Here!</u></p>
+
+<script th:src="@{/js/script.js}" type="text/javascript"></script>
+</body>
+</html>
