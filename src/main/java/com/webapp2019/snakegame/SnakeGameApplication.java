@@ -9,9 +9,10 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 @SpringBootApplication
 public class SnakeGameApplication {
+    public static DBServer db_server;
     public static void main(String[] args) {
         System.out.println("DB load\n");
-        DBServer server=new DBServer();
+        db_server =new DBServer();
         SpringApplication.run(SnakeGameApplication.class, args);
     }
 
