@@ -11,8 +11,12 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 public class SnakeGameApplication {
     public static DBServer db_server;
     public static void main(String[] args) {
-        System.out.println("DB load\n");
+        System.out.println("DB load");
+        //DBserver is only used when querrying infromation, and when information is added
         db_server =new DBServer();
+        //TODO:
+        //I should have a
+        //This part handles the http requests
         SpringApplication.run(SnakeGameApplication.class, args);
     }
 
