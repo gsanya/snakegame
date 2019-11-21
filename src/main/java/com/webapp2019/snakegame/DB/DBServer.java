@@ -1,4 +1,6 @@
 package com.webapp2019.snakegame.DB;
+import org.springframework.context.annotation.Bean;
+
 import java.sql.*;
 
 public class DBServer {
@@ -16,6 +18,8 @@ public class DBServer {
         }
 
     }
+
+
 
     public boolean checkLogin(String Username, String Password){
         String password;

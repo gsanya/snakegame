@@ -18,6 +18,7 @@ public class SnakeGameApplication {
         //I should have a
         //This part handles the http requests
         SpringApplication.run(SnakeGameApplication.class, args);
+        System.out.println("other thread");
     }
 
 }
