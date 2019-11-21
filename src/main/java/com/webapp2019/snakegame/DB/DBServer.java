@@ -23,12 +23,24 @@ public class DBServer {
 
     public boolean checkLogin(String Username, String Password){
         String password;
+        ResultSet rs;
         try{
             Statement stat= con.createStatement();
             String sql = "select * from userdatabase.users where username=\""+Username+"\"";
-            ResultSet rs=stat.executeQuery(sql);
-            rs.next();
-            password = rs.getString("password");
+            rs=stat.executeQuery(sql);
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+        try{
+            if(!rs.next())
+                return false;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+        try{
+        password = rs.getString("password");
         } catch (SQLException e){
             e.printStackTrace();
             return false;

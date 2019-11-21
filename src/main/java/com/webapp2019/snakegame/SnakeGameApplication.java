@@ -1,6 +1,8 @@
 package com.webapp2019.snakegame;
 
 import com.webapp2019.snakegame.DB.DBServer;
+import com.webapp2019.snakegame.gameServer.SnakeServer;
+import com.webapp2019.snakegame.gameServer.WebsocketServerSnake;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +21,8 @@ public class SnakeGameApplication {
         //This part handles the http requests
         SpringApplication.run(SnakeGameApplication.class, args);
         System.out.println("other thread");
+        new WebsocketServerSnake().start();
+        System.out.println("SnakeServer started");
     }
 
 }
