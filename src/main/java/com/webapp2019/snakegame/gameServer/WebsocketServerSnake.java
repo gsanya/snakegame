@@ -2,11 +2,14 @@
 
 package com.webapp2019.snakegame.gameServer;
 
+import com.sun.source.tree.CatchTree;
 import org.java_websocket.WebSocket;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
+import java.net.http.WebSocketHandshakeException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,20 +33,41 @@ public class WebsocketServerSnake extends WebSocketServer {
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
         conns.remove(conn);
-        System.out.println("Closed connection to " + conn.getRemoteSocketAddress().getAddress().getHostAddress());
+        try{
+            System.out.println("Closed connection to " + conn.getRemoteSocketAddress().getAddress().getHostAddress());
+        }
+        catch (WebsocketNotConnectedException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onMessage(WebSocket conn, String message) {
-        System.out.println("Message from client: " + message);
+        try{
+            System.out.println(conn.getRemoteSocketAddress() + ": " + message);
+        }
+        catch (WebsocketNotConnectedException e){
+            e.printStackTrace();
+        }
         for (WebSocket sock : conns) {
             if(sock.equals(conn))
             {
-                sock.send("Echo: "+message);
+                try {
+                    sock.send("Echo: "+message);
+                }
+                catch (WebsocketNotConnectedException e){
+                    e.printStackTrace();
+                }
+
             }
             else
             {
-                sock.send("New connection: " + conn.getRemoteSocketAddress());
+                try{
+                    sock.send("New connection: " + conn.getRemoteSocketAddress());
+                }
+                catch (WebsocketNotConnectedException e){
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -55,6 +79,11 @@ public class WebsocketServerSnake extends WebSocketServer {
             conns.remove(conn);
             // do some thing if required
         }
-        System.out.println("ERROR from " + conn.getRemoteSocketAddress().getAddress().getHostAddress());
+        try{
+            System.out.println("ERROR from " + conn.getRemoteSocketAddress().getAddress().getHostAddress());
+        }
+        catch (WebsocketNotConnectedException e){
+            e.printStackTrace();
+        }
     }
 }
