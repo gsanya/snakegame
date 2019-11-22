@@ -1,4 +1,12 @@
 //It is a websocket, which works with the javascript
+//https://stackoverflow.com/questions/41470482/java-server-javascript-client-websockets
+//<dependency>
+//    <groupId>org.java-websocket</groupId>
+//    <artifactId>Java-WebSocket</artifactId>
+//    <version>1.3.0</version>
+//</dependency>
+
+//it should be a state machine (waiting; starting; playing; end)
 
 package com.webapp2019.snakegame.gameServer;
 
