@@ -17,8 +17,6 @@ public class SnakeGameApplication {
         //DBserver is only used when querrying infromation, and when information is added
         db_server =new DBServer();
         //TODO:
-        //I should have a
-        //This part handles the http requests
         SpringApplication.run(SnakeGameApplication.class, args);
         System.out.println("other thread");
         new WebsocketServerSnake().start();
