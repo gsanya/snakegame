@@ -34,7 +34,7 @@ public class WebsocketServerSnake extends WebSocketServer {
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
         conns.remove(conn);
         try{
-            System.out.println("Closed connection to " + conn.getRemoteSocketAddress().getAddress().getHostAddress());
+            System.out.println("Closed connection");
         }
         catch (WebsocketNotConnectedException e){
             e.printStackTrace();
@@ -80,7 +80,7 @@ public class WebsocketServerSnake extends WebSocketServer {
             // do some thing if required
         }
         try{
-            System.out.println("ERROR from " + conn.getRemoteSocketAddress().getAddress().getHostAddress());
+            System.out.println("ERROR");
         }
         catch (WebsocketNotConnectedException e){
             e.printStackTrace();

@@ -1,23 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link th:href="@{/css/style.css}" rel='stylesheet' type='text/css'>
     <meta charset="UTF-8">
     <title>Game</title>
 </head>
 <body>
-Test<br>
-Test<br>
-Test<br>
-<canvas id="gameCanvas" width="150" height="150" style="border:1px solid #000000;">Fallback</canvas>
-
-<!--<script>-->
-<!--    var c = document.getElementById("gameCanvas");-->
-<!--    var ctx = c.getContext("2d");-->
-<!--    ctx.beginPath();-->
-<!--    ctx.arc(95,50,40,0,2*Math.PI);-->
-<!--    ctx.stroke();-->
-<!--</script>-->
+<p id="message" class="message">message</p><br>
+<h1>Game</h1>
+<canvas id="gameCanvas" width="400" height="400" >Fallback</canvas>
 
 <script th:src="@{/js/GameScript.js}" type="text/javascript"></script>
+<p id="console" class="console"></p><br>
 </body>
 </html>

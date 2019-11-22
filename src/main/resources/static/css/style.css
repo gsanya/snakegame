@@ -13,9 +13,23 @@ p{
     color:#ffffff;
 }
 
+
+
 h1{
     font-size:1.5em;
     color:#525252;
+}
+
+.console{
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+}
+
+.message{
+    position: absolute;
+    top: 2px;
+    left: 2px;
 }
 
 .box{
