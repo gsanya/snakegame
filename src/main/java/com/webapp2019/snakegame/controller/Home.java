@@ -24,9 +24,12 @@ public class Home {
         {
             System.out.println("logged in");
             return "game";
+
         }
         else
         {
+            SnakeGameApplication.db_server.addUser(user.getUser(),user.getPassword());
+
             System.out.println("nope");
             return "wrong";
         }

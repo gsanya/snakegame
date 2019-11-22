@@ -26,7 +26,7 @@ public class DBServer {
         ResultSet rs;
         try{
             Statement stat= con.createStatement();
-            String sql = "select * from userdatabase.users where username=\""+Username+"\"";
+            String sql = "select * from userdatabase.users where username='"+Username+"';";
             rs=stat.executeQuery(sql);
         } catch (SQLException e){
             e.printStackTrace();
@@ -55,19 +55,66 @@ public class DBServer {
         }
     }
 
-    public void addUser() {
+    public String addUser(String Username, String Password) {
 //        maxid, if user exists
-//        INSERT INTO `userdatabase`.`users` (`userId`, `userName`, `password`, `bestScore`, `matches`) VALUES (maxid+1, User, Password, '0', '0');
-//        try{
-//            Statement stat= con.createStatement();
-//            String sql = "select * from userdatabase.users where username=\""+Username+"\"";
-//            ResultSet rs=stat.executeQuery(sql);
-//            rs.next();
-//            password = rs.getString("password");
-//        } catch (SQLException e){
-//            e.printStackTrace();
-//            return false;
-//        }
+        ResultSet rs;
+        if(Username.equals("")&&Password.equals(""))
+            return "please type in a username and a password";
+        if(Username.equals(""))
+            return "please type in a username";
+        if(Password.equals(""))
+            return "please type in a password";
+        //query the database for the username
+        try{
+            Statement stat= con.createStatement();
+            String sql = "select * from userdatabase.users where username='"+Username+"';";
+            rs=stat.executeQuery(sql);
+        } catch (SQLException e){
+            e.printStackTrace();
+            return "can't execute query";
+        }
+        //check if user already exists
+        try{
+            if(rs.next())   //if there is a next, than we found a user with that name, so we return
+                return "username already taken";
+        } catch (SQLException e){
+            e.printStackTrace();
+            return "rs.next() exception";
+        }
+        //add new user with password
+        try{
+            Statement stat= con.createStatement();
+            String sql = "INSERT INTO `userdatabase`.`users` (`userName`, `password`, `bestScore`, `matches`) VALUES ('"+Username+"', '"+Password+"', '0', '0');";
+            stat.executeUpdate(sql);
+        } catch (SQLException e){
+            e.printStackTrace();
+            return "can't execute update";
+        }
+        return "user added";
+    }
+
+    public boolean setBestScore(String Username, int Score){
+        try{
+            Statement stat= con.createStatement();
+            String sql ="UPDATE userdatabase.users SET bestscore='"+Score+"'WHERE userName = '"+Username+"';";
+            stat.executeUpdate(sql);
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean incMatches(String Username){
+        try{
+            Statement stat= con.createStatement();
+            String sql ="UPDATE userdatabase.users SET matches=matches+1 WHERE userName = '"+Username+"';";
+            stat.executeUpdate(sql);
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }
 
