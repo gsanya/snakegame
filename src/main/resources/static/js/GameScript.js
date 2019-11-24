@@ -122,13 +122,13 @@ function drawGame(gameState) {
     for(let i=0;i<gameState.snakes.length;i++) {
         ctx.fillStyle=gameState.snakes[i].color;
         for(let j=0;j<gameState.snakes[i].trail.length;j++) {
-            ctx.fillRect(gameState.snakes[i].trail[j].x * gs+2, gameState.snakes[i].trail[j].y * gs+2, gs - 4, gs - 4);
+            ctx.fillRect(gameState.snakes[i].trail[j].x * gs+1, gameState.snakes[i].trail[j].y * gs+1, gs - 2, gs - 2);
         }
     }
     ctx.fillStyle="red";
     for(let i=0;i<gameState.apples.length;i++)
     {
-        ctx.fillRect(gameState.apples[i].x*gs+2,gameState.apples[i].y*gs+2,gs-4,gs-4);
+        ctx.fillRect(gameState.apples[i].x*gs+1,gameState.apples[i].y*gs+1,gs-2,gs-2);
     }
 }
 

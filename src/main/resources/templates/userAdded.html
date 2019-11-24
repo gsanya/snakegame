@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link th:href="@{/css/style.css}" rel='stylesheet' type='text/css'>
-    <title>Wrong user or password</title>
+    <title>The servers message to you:</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<h1>Wrong user or password</h1>
-<p th:text="'user you typed in: ' + ${login.user}" />
+<h1>The servers message to you:</h1>
+<p th:text="'message: ' + ${message}" />
 <a href="/login">Back to the Login page.</a><br>
 <a href="/adduser">Add new user.</a>
 </body>
