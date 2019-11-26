@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel='stylesheet' type='text/css' href="../static/css/style.css" th:href="@{/css/style.css}">
+    <title>Snake Sign in</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<header class="bgimg-1 w3-display-container w3-grayscale-min">
+    <div class="w3-card-4 card">
+
+        <h1>Sign up</h1>
+
+        <form class="w3-container" th:action="@{signup}" th:object="${signin}" method="post">
+
+            <label>User Name</label>
+            <input class="w3-input" name="user" placeholder="Jancsika"  th:field="*{user}" type="text" >
+
+            <label>Password</label>
+            <input class="w3-input" name="password" th:field="*{password}" type="password">
+
+            <button id="button_signin" class="w3-button w3-block w3-margin-top w3-white" value="Submit">SIGN UP</button>
+        </form>
+    </div>
+</header>
+</body>
+</html>

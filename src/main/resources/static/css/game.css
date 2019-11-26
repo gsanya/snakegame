@@ -1,0 +1,118 @@
+@import url("https://www.w3schools.com/w3css/4/w3.css");
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: "Raleway", sans-serif
+}
+
+body, html {
+    filter: grayscale(0);
+    height: 100%;
+    line-height: 1.8;
+    transition: all 0.5s
+
+}
+
+html.grayscale {
+    filter: grayscale(100%);
+    transition: all 0.5s
+}
+
+/* Full height image header */
+.bgimg-1 {
+    background-position: center;
+    background-size: cover;
+    background-image: url("../img/snake_skin.jpeg");
+    min-height: 100%;
+}
+
+.w3-bar .w3-button {
+    padding: 16px;
+}
+
+canvas {
+    height: 0;
+    overflow: hidden;
+    width: 10em;
+    opacity: 0;
+    transform: rotateX(-90deg);
+    transition: all 0.5s cubic-bezier(.36, -0.64, .34, 1.76);
+}
+
+canvas.show {
+    width: 1000px;
+    height: 700px;
+    opacity: 1;
+    transform: none;
+    transition: all 0.5s cubic-bezier(.36, -0.64, .34, 1.76);
+}
+
+li {
+    list-style: none;
+    height: 0;
+    line-height: 2em;
+    margin: 0;
+    padding: 0 0.5em;
+    overflow: hidden;
+    width: 10em;
+    opacity: 0;
+    transform: rotateX(-90deg);
+    transition: all 0.5s cubic-bezier(.36, -0.64, .34, 1.76);
+}
+
+li.show {
+    height: 3em;
+    margin: 2px 0;
+    opacity: 1;
+    transform: none;
+    transition: all 0.5s cubic-bezier(.36, -0.64, .34, 1.76);
+}
+
+li.grayscale {
+    opacity: 0.5;
+    transition: all 0.5s;
+}
+
+a.hideReady{
+    width: 0;
+    /*display: none;*/
+    overflow: hidden;
+
+    transition: all 0.4s ease-out;
+    opacity: 0;
+}
+a.showReady{
+    /*display: inline-block;*/
+    border: none;
+    opacity: 1;
+    width: 77px;
+    transition: all 0.4s ease-out;
+}
+
+a.widePlay{
+    border: none;
+    width: 150px;
+    transition: all 0.4s ease-out;
+}
+
+a.shortPlay {
+    width: 77px;
+    transition: all 0.4s ease-out;
+}
+
+div.show{
+    height: 3.5em;
+    opacity: 1;
+    transform: none;
+    transition: all 0.5s cubic-bezier(.36, -0.64, .34, 1.76);
+}
+
+div.hide{
+    height: 0;
+    float: left;
+    overflow: hidden;
+    opacity: 0;
+    transform: rotateX(-90deg);
+    transition: all 0.5s cubic-bezier(.36, -0.64, .34, 1.76);
+}

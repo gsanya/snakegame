@@ -1,14 +1,14 @@
-package com.webapp2019.snakegame.DB;
+package com.webapp2019.snakegame.database;
 
 import java.sql.*;
 
-public class DBServer {
+public class DataBaseServer {
     public Connection con;
 //Comment
-    public DBServer() {
+    public DataBaseServer() {
         String host="jdbc:mysql://localhost:3306/userdatabase";
         String uName ="root";
-        String uPass ="1234";
+        String uPass ="Webesalak.19";
         try {
             con = DriverManager.getConnection(host, uName, uPass);
             System.out.println("Connection successfully created.");

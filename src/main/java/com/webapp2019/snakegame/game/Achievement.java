@@ -1,4 +1,4 @@
-package com.webapp2019.snakegame.game_elements;
+package com.webapp2019.snakegame.game;
 
 public class Achievement {
     Point coord;

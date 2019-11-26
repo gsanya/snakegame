@@ -1,4 +1,4 @@
-package com.webapp2019.snakegame.game_elements;
+package com.webapp2019.snakegame.game;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

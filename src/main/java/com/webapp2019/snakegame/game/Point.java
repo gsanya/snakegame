@@ -1,4 +1,4 @@
-package com.webapp2019.snakegame.game_elements;
+package com.webapp2019.snakegame.game;
 
 import java.util.Random;
 

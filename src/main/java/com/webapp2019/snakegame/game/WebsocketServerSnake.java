@@ -8,7 +8,7 @@
 
 //it should be a state machine (waiting; starting; playing; end)
 
-package com.webapp2019.snakegame.game_elements;
+package com.webapp2019.snakegame.game;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.exceptions.WebsocketNotConnectedException;

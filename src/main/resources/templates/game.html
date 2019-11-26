@@ -1,16 +1,67 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" id="game">
 <head>
-    <link th:href="@{/css/style.css}" rel='stylesheet' type='text/css'>
-    <meta charset="UTF-8">
-    <title>Snake Game</title>
-</head>
-<body>
-<p id="message" class="message">message</p><br>
-<h1>Game</h1>
-<canvas id="gameCanvas" width="400" height="400" >Fallback</canvas>
+    <link rel="stylesheet" type="text/css" media="all" href="../static/css/game.css"  th:href="@{/css/game.css}">
 
-<script th:src="@{/js/GameScript.js}" type="text/javascript"></script>
-<p id="console" class="console"></p><br>
+    <title>Web Snake</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body onload="subscribeToWebSocket()">
+
+<!-- Navigation bar (sit on top) -->
+<div class="w3-top">
+    <div class="w3-bar w3-white w3-card" id="myNavbar">
+        <!-- Left-sided buttons -->
+        <a href="#chat" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i>???CHAT???</a>
+
+        <!-- Right-sided buttons -->
+        <div class="w3-right w3-hide-small w3-dropdown-hover">
+<!--            <div id="div_startAGame" class="hide" >-->
+<!--                <a  id = "signin" onclick="onClickPlay()" style="height: 3em; margin-left: -4px;  background: white; color: black;" class="w3-bar-item w3-button w3-medium widePlay">PLAY!</a>-->
+<!--                <a  id = "signup" onclick="onClickReady()" style="height: 3em; margin-left: -4px; background: white; color: black;" class="w3-bar-item w3-button w3-medium hideReady" >READY!</a>-->
+<!--            </div>-->
+            <a id="username" class="w3-button"><i class="fa fa-user"></i> TEAM</a>
+            <div class="w3-dropdown-content w3-bar-block">
+                <a id="signout" class="w3-bar-item w3-button" href="signin">SIGN OUT</a>
+            </div>
+        </div>
+        <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+        <!--<a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">-->
+        <!--<i class="fa fa-bars"></i>-->
+        <!--</a>-->
+    </div>
+</div>
+
+<!-- Sidebar on small screens when clicking the menu icon -->
+<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none"
+     id="mySidebar">
+    <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+    <a onclick="w3_close()" class="w3-bar-item w3-button">DOWNLOAD CLIENT</a>
+</nav>
+
+<!-- Header with full-height image -->
+<header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
+    <div class="w3-display-center w3-text-white" align="center">
+        <div style="padding-top:70px">
+            <canvas id="myCanvas" width="1000" height="700" style="border:4px solid #000000;"></canvas>
+            <div style="width: 400px;display:inline-block; vertical-align: top; padding-top: 40px; ">
+                <div id="div_startAGame" class="hide" >
+                    <input id = "playerColorPicker" type="color" style="float: left; height: 3.5em; width: 50px; margin-right: -2px; margin-top: -4px; padding: 0; border: none; background: none">
+                    <input id="playerNameInput" type="text"  class="w3-input w3-border" style="width: 200px; float: left" placeholder="Your name">
+                    <a  id = "connectAsPlayer" onclick="onClickPlay()" style="height: 3em; margin-left: -4px;  background: white; color: black;" class="w3-bar-item w3-button w3-medium widePlay">PLAY!</a>
+                    <a  id = "readyAsPlayer" onclick="onClickReady()" style="height: 3em; margin-left: -4px; background: white; color: black;" class="w3-bar-item w3-button w3-medium hideReady" >READY!</a>
+                </div>
+                <ul id="scoreBoard" class="w3-ul"></ul>
+            </div>
+        </div>
+        <span class="w3-jumbo w3-hide-small" id="message">Connecting...</span><br>
+    </div>
+</header>
+
+<!--HTML needs to be inflated-->
+<script th:src="@{/static/js/GamGameScript.js}" type="text/javascript"></script>
 </body>
 </html>
