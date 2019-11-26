@@ -5,9 +5,9 @@ import java.sql.*;
 
 public class DBServer {
     public Connection con;
-
+//Comment
     public DBServer() {
-        String host="jdbc:mysql://localhost:3306/world";
+        String host="jdbc:mysql://localhost:3306/userdatabase";
         String uName ="root";
         String uPass ="1234";
         try {
