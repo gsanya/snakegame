@@ -30,7 +30,7 @@ public class Home {
         if(SnakeGameApplication.db_server.checkLogin(user.getUser(), user.getPassword()))
         {
             System.out.println("logged in");
-            SnakeGameApplication.users.add(user);
+            //SnakeGameApplication.users.add(user);
             return "redirect:game";
         }
         else
