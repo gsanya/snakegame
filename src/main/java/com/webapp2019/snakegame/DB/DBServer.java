@@ -8,7 +8,7 @@ public class DBServer {
     public DBServer() {
         String host="jdbc:mysql://localhost:3306/userdatabase";
         String uName ="root";
-        String uPass ="Webesalak.19";
+        String uPass ="1234";
         try {
             con = DriverManager.getConnection(host, uName, uPass);
             System.out.println("Connection successfully created.");

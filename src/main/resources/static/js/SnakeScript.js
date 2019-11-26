@@ -78,6 +78,7 @@ function initWindow() {
 }
 
 function drawBaseMap() {
+
     gc.fillStyle = "#FFFFFF";
     gc.fillRect(0, 0, canvas.width, canvas.height);
     gc.beginPath();
@@ -260,7 +261,7 @@ function showMessage(text) {
 
 function subscribeToWebSocket() {
     if ('WebSocket' in window) {
-        socket = new WebSocket('ws://192.168.43.62:4444');
+        socket = new WebSocket('ws://localhost:4444');
         socket.onopen = function () {
             document.getElementById("snake").className = "";
             drawBaseMap();

@@ -157,6 +157,7 @@ public class WebsocketServerSnake extends WebSocketServer {
             // do some thing if required
         }
         try{
+            ex.printStackTrace();
             System.out.println("ERROR");
         }
         catch (WebsocketNotConnectedException e){

@@ -5,6 +5,7 @@
 state=1; //1: waiting; 2:playing; 3:ending
 gs=10;
 let socket = new WebSocket("ws://localhost:4444");
+var x = document.cookie;
 
 //----------------Variables to test----------------
 let snake1 = {
@@ -23,6 +24,16 @@ let gameState={
 };
 
 
+function getCookie(name) {
+    var cookies = document.cookie.split(';');
+    for(var i=0 ; i < cookies.length ; ++i) {
+        var pair = cookies[i].trim().split('=');
+        if(pair[0] == name)
+            return pair[1];
+    }
+    return null;
+};
+
 
 
 //----------------socket functions----------------
@@ -32,6 +43,7 @@ socket.onopen = function(e) {
 
 socket.onmessage = function(event) {
     document.getElementById("message").innerHTML = event.data;
+    //document.getElementById("message").innerHTML = getCookie("SESSION");
     if(event.data=="state:1")
     {
         state=1;
@@ -87,7 +99,6 @@ window.onabort=function () {
     socket.close();
 };
 
-window.on
 //----------------gamestate create----------------
 function createGameState(message)
 {

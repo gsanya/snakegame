@@ -1,6 +1,5 @@
 package com.webapp2019.snakegame.game_elements;
 
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.scene.paint.Color;

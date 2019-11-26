@@ -1,25 +1,38 @@
 package com.webapp2019.snakegame;
 
 import com.webapp2019.snakegame.DB.DBServer;
+import com.webapp2019.snakegame.game_elements.SnakeServer;
 import com.webapp2019.snakegame.game_elements.WebsocketServerSnake;
+import com.webapp2019.snakegame.model.Login;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Vector;
+
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 @SpringBootApplication
 public class SnakeGameApplication {
+
     public static DBServer db_server;
+    public static Vector<Login> users;
+
     public static void main(String[] args) {
-        System.out.println("DB load");
+        users = new Vector<Login>();
+
         //DBserver is only used when querrying infromation, and when information is added
-        db_server =new DBServer();
-        //TODO:
+        db_server = new DBServer();
+        System.out.println("DB loaded.");
+
+        //Run the http server (the springapplication
         SpringApplication.run(SnakeGameApplication.class, args);
-        System.out.println("other thread");
+        System.out.println("Springapplication is running.");
+
+        //Run the websocket server
         new WebsocketServerSnake().start();
         System.out.println("SnakeServer started");
     }
-
-}
+};

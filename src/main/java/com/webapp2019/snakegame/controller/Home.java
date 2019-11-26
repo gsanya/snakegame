@@ -31,7 +31,7 @@ public class Home {
         {
             System.out.println("logged in");
             SnakeGameApplication.users.add(user);
-            return "redirect:game";
+            return "redirect:snake";        //if game--> old version by Sanya
         }
         else
         {
@@ -59,5 +59,10 @@ public class Home {
     @GetMapping("/game")
     public String Game() {
         return "game";
+    }
+
+    @GetMapping("/snake")
+    public String Game1() {
+        return "snake";
     }
 }
