@@ -54,9 +54,9 @@ public class Home {
         return "signup";
     }
 
-    @PostMapping("/adduser")
-    public ModelAndView AddUser(@ModelAttribute SignIn user) {
-        ModelAndView modelAndView = new ModelAndView("user_added");
+    @PostMapping("/signup")
+    public ModelAndView signUp(@ModelAttribute SignIn user) {
+        ModelAndView modelAndView = new ModelAndView("User signed up");
         String success= SnakeGameApplication.db_server.addUser(user.getUser(),user.getPassword());
         modelAndView.addObject("message", success);
         System.out.println(success);

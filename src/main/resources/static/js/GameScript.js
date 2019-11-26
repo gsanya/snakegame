@@ -261,9 +261,9 @@ function showMessage(text) {
 
 function subscribeToWebSocket() {
     if ('WebSocket' in window) {
-        socket = new WebSocket('ws://localhost:4444');
+        socket = new WebSocket('ws://'+ self.location.hostname + ':4444');
         socket.onopen = function () {
-            document.getElementById("snake").className = "";
+            document.getElementById("game").className = "";
             drawBaseMap();
             //canvas.style.display="inline-block";
             canvas.className = "show";

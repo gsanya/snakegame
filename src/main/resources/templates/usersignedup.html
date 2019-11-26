@@ -10,8 +10,8 @@
     <div class="w3-card-4 card">
         <h1>The servers message to you:</h1>
         <p th:text="'message: ' + ${message}" />
-        <a href="/signin">Back to the Sign in page.</a><br>
-        <a href="/signup">Sign up.</a>
+        <a th:href="@{signin}">Back to the Sign in page.</a><br>
+        <a th:href="@{signup}">Sign up.</a>
     </div>
 </header>
 </body>
