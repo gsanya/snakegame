@@ -1,8 +1,7 @@
 package com.webapp2019.snakegame;
 
 import com.webapp2019.snakegame.DB.DBServer;
-import com.webapp2019.snakegame.gameServer.SnakeServer;
-import com.webapp2019.snakegame.gameServer.WebsocketServerSnake;
+import com.webapp2019.snakegame.game_elements.WebsocketServerSnake;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,6 @@
-package com.webapp2019.snakegame.gameServer;
+package com.webapp2019.snakegame.game_elements;
+
+import com.webapp2019.snakegame.gameServer.ClientInfo;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -6,6 +8,8 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class SnakeServer {
+    private static Game game;
+
     private static DatagramSocket socket;
     private static boolean running;
     //arraylist: változtatható méretű tömb a kliensekne
@@ -17,6 +21,9 @@ public class SnakeServer {
             socket = new DatagramSocket(port);
             running=true;
             listen();
+
+            game=Game.getInstance();
+            game.init();
 
             System.out.println("Server started on port: " + port);
         } catch (Exception e) {
@@ -102,12 +109,12 @@ public class SnakeServer {
 
     //összeszedjük ki online
     private static String getOnlineUserList() {
-        String userList= "\\list:";
+        StringBuilder userList= new StringBuilder("\\list:");
         for (ClientInfo info: clients) {
-            userList+=info.getName() + "#";
+            userList.append(info.getName()).append("#");
         }
 
-        return userList;
+        return userList.toString();
     }
 
 

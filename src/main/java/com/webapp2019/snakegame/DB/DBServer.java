@@ -1,5 +1,4 @@
 package com.webapp2019.snakegame.DB;
-import org.springframework.context.annotation.Bean;
 
 import java.sql.*;
 
@@ -7,9 +6,9 @@ public class DBServer {
     public Connection con;
 
     public DBServer() {
-        String host="jdbc:mysql://localhost:3306/world";
+        String host="jdbc:mysql://localhost:3306/userdatabase";
         String uName ="root";
-        String uPass ="1234";
+        String uPass ="Webesalak.19";
         try {
             con = DriverManager.getConnection(host, uName, uPass);
             System.out.println("Connection successfully created.");
@@ -59,11 +58,11 @@ public class DBServer {
 //        maxid, if user exists
         ResultSet rs;
         if(Username.equals("")&&Password.equals(""))
-            return "please type in a username and a password";
+            return "Please type in a username and a password!";
         if(Username.equals(""))
-            return "please type in a username";
+            return "Please type in a username!";
         if(Password.equals(""))
-            return "please type in a password";
+            return "Please type in a password!";
         //query the database for the username
         try{
             Statement stat= con.createStatement();
@@ -71,15 +70,15 @@ public class DBServer {
             rs=stat.executeQuery(sql);
         } catch (SQLException e){
             e.printStackTrace();
-            return "can't execute query";
+            return "Coudn't execute query";
         }
         //check if user already exists
         try{
             if(rs.next())   //if there is a next, than we found a user with that name, so we return
-                return "username already taken";
+                return "Username already taken.";
         } catch (SQLException e){
             e.printStackTrace();
-            return "rs.next() exception";
+            return "Rs.next() exception";
         }
         //add new user with password
         try{
@@ -88,9 +87,9 @@ public class DBServer {
             stat.executeUpdate(sql);
         } catch (SQLException e){
             e.printStackTrace();
-            return "can't execute update";
+            return "Couldn't execute update.";
         }
-        return "user added";
+        return "User added.";
     }
 
     public boolean setBestScore(String Username, int Score){
