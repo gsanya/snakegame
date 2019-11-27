@@ -164,4 +164,9 @@ public class WebsocketServerSnake extends WebSocketServer {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onStart() {
+
+    }
 }

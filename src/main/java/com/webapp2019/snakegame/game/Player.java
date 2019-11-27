@@ -118,25 +118,25 @@ public class Player {
     synchronized public void stepPlayer() {
         if (keyCode == null) return;
         switch (keyCode) {
-            case "8":
+            case "UP":
                 if (dir == eDirection.DOWN) {
                     return;
                 }
                 dir = eDirection.UP;
                 return;
-            case "4":
+            case "LEFT":
                 if (dir == eDirection.RIGHT) {
                     return;
                 }
                 dir = eDirection.LEFT;
                 return;
-            case "2":
+            case "DOWN":
                 if (dir == eDirection.UP) {
                     return;
                 }
                 dir = eDirection.DOWN;
                 return;
-            case "6":
+            case "RIGHT":
                 if (dir == eDirection.LEFT) {
                     return;
                 }

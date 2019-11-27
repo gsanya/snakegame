@@ -123,3 +123,7 @@ div.hide{
     left: 2px;
     color: #ffffff
 }
+
+#bar_signout{
+    visibility: hidden;
+}

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import javafx.scene.paint.Color;
 
 import org.java_websocket.WebSocket;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,7 +222,12 @@ public class Game {
         json.add("achievements", new Gson().toJsonTree(achievement));
         String jsonString = new Gson().toJson(json);
         for (WebSocket watcher : watchers) {
-            watcher.send(jsonString);
+            try {
+                watcher.send(jsonString); // ezt szepen kéne megoldani amikor vége a jáatékna a watchernél meghal mert connection closed van
+            }catch (WebsocketNotConnectedException e){
+
+            }
+
         }
 //        for (WebSocketConnection player : players.keySet()) {
 //            player.send(jsonString);

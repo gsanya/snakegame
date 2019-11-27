@@ -14,23 +14,25 @@ let btnPlay = document.getElementById('connectAsPlayer');
 let btnReady = document.getElementById('readyAsPlayer');
 
 let playing = false;
-//var numOfPlayers = 0;
 let listIds = [];
+
+let username = document.cookie;
+
 initWindow();
 
 document.addEventListener('keydown', function(event) {
     if(playing) {
-        if (event.keyCode == 65) {
-            socket.send('4');
+        if (event.key === 'a' || event.key === 'ArrowLeft') {
+            socket.send('LEFT');
         }
-        else if (event.keyCode == 87) {
-            socket.send('8');
+        else if (event.key === 'w' || event.key === 'ArrowUp') {
+            socket.send('UP');
         }
-        else if (event.keyCode == 68) {
-            socket.send('6');
+        else if (event.key === 'd' || event.key === 'ArrowRight') {
+            socket.send('RIGHT');
         }
-        else if (event.keyCode == 83) {
-            socket.send('2');
+        else if (event.key === 's' || event.key === 'ArrowDown') {
+            socket.send('DOWN');
 
         }
     }
@@ -265,7 +267,7 @@ function subscribeToWebSocket() {
             canvas.className = "show";
             document.getElementById("div_startAGame").className="show";
             showMessage('ONLINE');
-            document.getElementById("console").innerHTML =getCookie("username");
+            checkCookie();
             socket.send('GUEST');
         };
         socket.onmessage = function (msg) {
@@ -302,31 +304,51 @@ function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-var mySidebar = document.getElementById("mySidebar");
+//Cookies
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
 
-function w3_open() {
-    if (mySidebar.style.display === 'block') {
-        mySidebar.style.display = 'none';
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function checkCookie() {
+    var user = getCookie("username");
+    if (user !== "") {
+        updateSignedInUser(user);
+        alert("Welcome again " + user);
     } else {
-        mySidebar.style.display = 'block';
+        user = prompt("Please enter your name:", "");
+        if (user !== "" && user != null) {
+            setCookie("username", user, 365);
+        }
     }
 }
 
-// Close the sidebar with the close button
-function w3_close() {
-    mySidebar.style.display = "none";
+//egyelőre gány módon összevissza
+
+function updateSignedInUser(user) {
+    playerName.innerHTML = user;
+    document.getElementById('btn_signin').innerHTML = user;
+    document.getElementById('bar_signup').style.visibility = "visible";
 }
 
 
-//cookies
-function getCookie(name) {
-    var cookies = document.cookie.split(';');
-    for(var i=0 ; i < cookies.length ; ++i) {
-        var pair = cookies[i].trim().split('=');
-        if(pair[0] == name)
-            return pair[1];
-    }
-    return null;
-};
+function onClickSignOut() {
 
-
+}
