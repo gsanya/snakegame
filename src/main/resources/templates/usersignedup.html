@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel='stylesheet' type='text/css' href="../static/css/style.css" th:href="@{/css/style.css}">
+    <title>Snake Login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<header class="bgimg-1 w3-display-container w3-grayscale-min">
+    <div class="w3-card-4 card">
+        <h1>The servers message to you:</h1>
+        <p th:text="'message: ' + ${message}" />
+        <a th:href="@{signin}">Back to the Sign in page.</a><br>
+        <a th:href="@{signup}">Sign up.</a>
+    </div>
+</header>
+</body>
+</html>

@@ -1,150 +1,321 @@
-//now the locations must be between 0 and 39...
+let socket;
+let canvas = document.getElementById('myCanvas');
+let gc = canvas.getContext("2d");
+let CELL_SIZE = 20;
+let MAP_SIZE_X = 50;
+let MAP_SIZE_Y = 35;
+let BODY_SCALE = 0.5;
+let scoreBoard = document.getElementById('scoreBoard');
 
+let playerName = document.getElementById('playerNameInput');
+let playerColor = document.getElementById('playerColorPicker');
 
-//----------------constants/initvalues----------------
-state=1; //1: waiting; 2:playing; 3:ending
-gs=10;
-let socket = new WebSocket("ws://localhost:4444");
+let btnPlay = document.getElementById('connectAsPlayer');
+let btnReady = document.getElementById('readyAsPlayer');
 
-//----------------Variables to test----------------
-let snake1 = {
-    trail:[{x:10,y:10},{x:10,y:11},{x:10,y:12}],
-    color:"green",
-};
-let snake2 = {
-    trail:[{x:3,y:10},{x:3,y:11},{x:3,y:12}],
-    color:"blue",
-};
-let snakes=[snake1,snake2]; //players
-let apples=[{x:0,y:0},{x:0,y:39},{x:1,y:39},{x:39,y:39},{x:39,y:0}];
-let gameState={
-    snakes:snakes,
-    apples:apples
-};
+let playing = false;
+//var numOfPlayers = 0;
+let listIds = [];
+initWindow();
 
+document.addEventListener('keydown', function(event) {
+    if(playing) {
+        if (event.keyCode == 65) {
+            socket.send('4');
+        }
+        else if (event.keyCode == 87) {
+            socket.send('8');
+        }
+        else if (event.keyCode == 68) {
+            socket.send('6');
+        }
+        else if (event.keyCode == 83) {
+            socket.send('2');
 
-
-
-//----------------socket functions----------------
-socket.onopen = function(e) {
-    document.getElementById("console").innerHTML = "Connection established";
-};
-
-socket.onmessage = function(event) {
-    document.getElementById("message").innerHTML = event.data;
-    if(event.data=="state:1")
-    {
-        state=1;
-        document.getElementById("console").innerHTML ='state:1';
-
-    }
-    if(event.data=="state:2")
-    {
-        state=2;
-        document.getElementById("console").innerHTML ='state:2';
-    }
-    if(event.data=="state:3")
-    {
-        state=3;
-        document.getElementById("console").innerHTML ='state:3';
-    }
-    else
-    {
-        //TODO:process message and than drawGame
-    }
-};
-
-socket.onclose = function(event) {
-    if (event.wasClean) {
-        document.getElementById("console").innerHTML = `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`;
-    } else {
-        document.getElementById("console").innerHTML ='[close] Connection died';
-    }
-};
-
-socket.onerror = function(error) {
-    document.getElementById("console").innerHTML ='[error] ${error.message}';
-};
-
-
-//----------------window functions----------------
-window.onload=function() {
-    canv=document.getElementById("gameCanvas");
-    ctx=canv.getContext("2d");
-    document.addEventListener("keydown",keyPush);
-    drawWait();
-    drawGame(gameState);
-    //drawEnding("gsanya");
-};
-
-window.onclose=function () {
-    socket.onclose = function () {}; // disable onclose handler first
-    socket.close();
-};
-
-window.onabort=function () {
-    socket.onclose = function () {}; // disable onclose handler first
-    socket.close();
-};
-
-window.on
-//----------------gamestate create----------------
-function createGameState(message)
-{
-    //TODO: create gamestate object from massage
-}
-
-
-//----------------drawing functions----------------
-function drawWait(){
-    ctx.fillStyle="black";
-    ctx.fillRect(0,0,canv.width,canv.height);
-    ctx.font = "30px";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "center";
-    ctx.fillText("Waiting for players", canv.width/2, canv.height/2);
-}
-
-function drawEnding(Winner){
-    ctx.fillStyle="black";
-    ctx.fillRect(0,0,canv.width,canv.height);
-    ctx.font = "30px";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "center";
-    ctx.fillText("Game has ended. Winner is "+Winner, canv.width/2, canv.height/2);
-}
-
-function drawGame(gameState) {
-    ctx.fillStyle="black";
-    ctx.fillRect(0,0,canv.width,canv.height);
-
-
-    for(let i=0;i<gameState.snakes.length;i++) {
-        ctx.fillStyle=gameState.snakes[i].color;
-        for(let j=0;j<gameState.snakes[i].trail.length;j++) {
-            ctx.fillRect(gameState.snakes[i].trail[j].x * gs+1, gameState.snakes[i].trail[j].y * gs+1, gs - 2, gs - 2);
         }
     }
-    ctx.fillStyle="red";
-    for(let i=0;i<gameState.apples.length;i++)
-    {
-        ctx.fillRect(gameState.apples[i].x*gs+1,gameState.apples[i].y*gs+1,gs-2,gs-2);
+}, true);
+
+function onClickPlay() {
+    if(!playing) {
+        showBtnReady();
+        socket.send('{"name":"' + playerName.value + '","color":"' + playerColor.value + '"}');
+        btnPlay.textContent = "LEAVE";
+        playing=true;
+    }
+    else{
+        hideBtnReady();
+        socket.send('LEAVE');
+        btnPlay.textContent = "PLAY!";
+        playing=false;
     }
 }
 
-function keyPush(evt) {
-    switch(evt.which) {
-        case 37://left
-            socket.send("left");
-            break;
-        case 38://down
-            socket.send("up");
-            break;
-        case 39://right
-            socket.send("right");
-            break;
-        case 40://up
-            socket.send("down");
-            break;
+function showBtnReady() {
+    btnPlay.className = "w3-bar-item w3-button w3-medium shortPlay";
+    setTimeout(function () {
+        btnReady.className = "w3-bar-item w3-button w3-medium showReady";
+    },100);
+}
+
+function hideBtnReady() {
+    btnReady.className = "w3-bar-item w3-button w3-medium hideReady";
+    setTimeout(function () {
+        btnPlay.className = "w3-bar-item w3-button w3-medium widePlay";
+    },100);
+}
+
+
+function onClickReady() {
+    socket.send('READY');
+
+}
+
+
+function initWindow() {
+    canvas.width = CELL_SIZE * MAP_SIZE_X;
+    canvas.height = CELL_SIZE * MAP_SIZE_Y;
+}
+
+function drawBaseMap() {
+
+    gc.fillStyle = "#FFFFFF";
+    gc.fillRect(0, 0, canvas.width, canvas.height);
+    gc.beginPath();
+    gc.lineWidth = 0.5;
+    for (i = 1; i < MAP_SIZE_X; i++) {
+        gc.moveTo(i * CELL_SIZE, 0);
+        gc.lineTo(i * CELL_SIZE, canvas.height);
     }
+
+    for (j = 1; j < MAP_SIZE_Y; j++) {
+        gc.moveTo(0, j * CELL_SIZE);
+        gc.lineTo(canvas.width, j * CELL_SIZE);
+    }
+    gc.stroke();
+}
+
+function removePlayer(id) {
+    var index = listIds.indexOf(id);
+    listIds.splice(index, 1);
+    var item = document.getElementById(id);
+    // closePlayerItem(item);
+    item.className = "";
+    closePlayerItem(item);
+}
+
+function closePlayerItem(item) {
+    setTimeout(function () {
+        scoreBoard.removeChild(item);
+    }, 100);
+}
+
+
+function addNewPlayer(player) {
+    listIds.push(player.id);
+    var listItem = document.createElement('li');
+    listItem.setAttribute('id', player.id);
+    listItem.setAttribute('style', "background: " + player.color + "; alignment: left");
+    listItem.setAttribute('class', "w3-bar");
+    listItem.className = listItem.className + " grayscale";
+
+
+    var playerName = document.createElement('span');
+    playerName.appendChild(document.createTextNode(player.name));
+    playerName.setAttribute('style', "padding: 20px")
+
+    var score = document.createElement('span');
+    score.appendChild(document.createTextNode(player.score))
+
+    listItem.appendChild(playerName);
+    listItem.appendChild(score);
+    scoreBoard.appendChild(listItem);
+    setTimeout(function () {
+        listItem.className = listItem.className + " show";
+    }, 10);
+}
+
+
+function drawPlayers(gameData) {
+    drawBaseMap();
+    //draw achievement
+    gc.fillStyle = "#FF0000";
+    gc.fillRect(CELL_SIZE * gameData.achievements.coord.x, CELL_SIZE * gameData.achievements.coord.y, CELL_SIZE, CELL_SIZE);
+    //var index = 0;
+    //gc.beginPath();
+
+
+    //addNewPlayers
+    for (player of gameData.players) {
+        var playerIndex = listIds.indexOf(player.id);
+        if (playerIndex < 0) {
+            addNewPlayer(player);
+        }
+    }
+    //delete exited Players
+    for (listId of listIds) {
+        var found = false;
+        for (player of gameData.players) {
+            if (listId === player.id) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            removePlayer(listId);
+        }
+    }
+
+    for (player of gameData.players) {
+
+
+        // if(Number(player.id)>Number(index)){
+        //     removePlayer(player.id);
+        //     //numOfPlayers--;
+        //     index=player.id;
+        // }
+        // if(player.id>=numOfPlayers){
+        //     numOfPlayers=index+1;
+        //     addNewPlayer(player);
+        // }
+        listItem = document.getElementById(player.id);
+        if (player.gameOver) {
+            //index++;
+            listItem.className = "w3-bar show grayscale";
+            continue;
+        }
+        else {
+            if (player.ready) {
+                listItem.className = "w3-bar show";
+            }
+            else {
+                listItem.className = listItem.className + " grayscale";
+            }
+        }
+
+        document.getElementById(player.id).children[1].textContent = player.score;//toString(player.score);
+
+        gc.beginPath();
+        gc.fillStyle = player.color;
+        gc.fillRect(CELL_SIZE * player.head.x, CELL_SIZE * player.head.y, CELL_SIZE, CELL_SIZE);
+        gc.strokeStyle = player.color;
+        gc.lineWidth = CELL_SIZE * BODY_SCALE;
+        if (player.tail.length != 0) {
+            //draw neck
+            gc.moveTo(CELL_SIZE * (player.head.x + 0.5),
+                CELL_SIZE * (player.head.y + 0.5));
+            gc.lineTo(CELL_SIZE * (player.tail[0].x + 0.5),
+                CELL_SIZE * (player.tail[0].y + 0.5));
+
+            //draw body
+            for (i = 1; i < player.tail.length; i++) {
+                strokeLine(CELL_SIZE * (player.tail[i - 1].x + 0.5),
+                    CELL_SIZE * (player.tail[i - 1].y + 0.5),
+                    CELL_SIZE * (player.tail[i].x + 0.5),
+                    CELL_SIZE * (player.tail[i].y + 0.5)); //draw body
+            }
+        }
+        gc.stroke();
+        //index++;
+    }
+    // if(index<numOfPlayers){
+    //     for(var i=index; i<numOfPlayers; i++){
+    //         removePlayer(i);
+    //         numOfPlayers--;
+    //     }
+    // }
+
+    //gc.stroke();
+    gc.strokeStyle = "#000000";
+}
+
+function strokeLine(x, y, x1, y1) {
+    gc.moveTo(x, y);
+    gc.lineTo(x1, y1);
+}
+
+function drawLine() {
+    ctx.moveTo(0, 0);
+    ctx.lineTo(200, 100);
+    ctx.stroke();
+}
+
+var text1 = '{ "employees" : [' +
+    '{ "firstName":"John" , "lastName":"Doe" },' +
+    '{ "firstName":"Anna" , "lastName":"Smith" },' +
+    '{ "firstName":"Peter" , "lastName":"Jones" } ]}';
+
+function refreshGUI(obj) {
+    //document.getElementById('message').innerHTML = gameData.achievements.coord.x;
+    drawPlayers(obj);
+}
+
+function sendMessage() {
+    var message = document.getElementById('userInput').value;
+    socket.send(message);
+}
+
+function showMessage(text) {
+    document.getElementById('message').innerHTML = text;
+}
+
+function subscribeToWebSocket() {
+    if ('WebSocket' in window) {
+        socket = new WebSocket('ws://'+ self.location.hostname + ':4444');
+        socket.onopen = function () {
+            document.getElementById("game").className = "";
+            drawBaseMap();
+            //canvas.style.display="inline-block";
+            canvas.className = "show";
+            document.getElementById("div_startAGame").className="show";
+            showMessage('ONLINE');
+            socket.send('GUEST');
+        };
+        socket.onmessage = function (msg) {
+            //showMessage(msg.data);
+            refreshGUI(JSON.parse(msg.data));
+        };
+        socket.onerror = function (msg) {
+            showMessage('Sorry but there was an error.');
+        };
+        socket.onclose = function () {
+            //canvas.style.display="none";
+            canvas.className = "";
+            document.getElementById("div_startAGame").className="hide";
+            hideBtnReady();
+            for(id of listIds){
+                removePlayer(id);
+            }
+
+            btnPlay.textContent = "PLAY!";
+            playing=false;
+
+
+            showMessage('Server offline.');
+            document.getElementById("HTML").className = "grayscale";
+            sleep(2000);
+            subscribeToWebSocket();
+        };
+    } else {
+        showMessage('Your browser does not support HTML5 WebSockets.');
+    }
+}
+
+function sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+var mySidebar = document.getElementById("mySidebar");
+
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+    } else {
+        mySidebar.style.display = 'block';
+    }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
 }

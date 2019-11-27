@@ -1,6 +1,6 @@
 package com.webapp2019.snakegame.model;
 
-public class Login {
+public class SignIn {
 
    // private long id;
     private String user;

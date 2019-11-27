@@ -1,15 +1,14 @@
-package com.webapp2019.snakegame.gameServer;
+package com.webapp2019.snakegame.game;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.ArrayList;
 
 public class SnakeServer {
+
+    /*private static Game game;
     private static DatagramSocket socket;
     private static boolean running;
-    //arraylist: változtatható méretű tömb a kliensekne
-    private static ArrayList<ClientInfo> clients = new ArrayList <ClientInfo>();
     private static int clientId;
 
     public static void start (int port) {
@@ -18,16 +17,12 @@ public class SnakeServer {
             running=true;
             listen();
 
+            game=Game.getInstance();
+            game.init();
+
             System.out.println("Server started on port: " + port);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    //üzenet mindenkinek
-    private static void broadcast(String message) {
-        for (ClientInfo info: clients) {
-            send(message, info.getAddress(), info.getPort());
         }
     }
 
@@ -75,11 +70,11 @@ public class SnakeServer {
             }
         }; listenThread.start();
     }
-    /*
+    *//*
     szerver parancsok (majd lesz több)
     \con:[name] csatlakozás a szerverre
 
-     */
+     *//*
 
     //eldöntjük hogy a beérkező üzenet parancs-e
     private static boolean isCommand(String message, DatagramPacket packet) {
@@ -102,17 +97,17 @@ public class SnakeServer {
 
     //összeszedjük ki online
     private static String getOnlineUserList() {
-        String userList= "\\list:";
+        StringBuilder userList= new StringBuilder("\\list:");
         for (ClientInfo info: clients) {
-            userList+=info.getName() + "#";
+            userList.append(info.getName()).append("#");
         }
 
-        return userList;
+        return userList.toString();
     }
 
 
     //szerver leállítás
     public static void stop () {
         running=false;
-    }
+    }*/
 }
