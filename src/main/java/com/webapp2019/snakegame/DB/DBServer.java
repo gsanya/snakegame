@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class DBServer {
     public Connection con;
-
+    //server constructor
     public DBServer() {
         String host="jdbc:mysql://localhost:3306/world";
         String uName ="root";
@@ -18,9 +18,7 @@ public class DBServer {
         }
 
     }
-
-
-
+    //check if Login exists
     public boolean checkLogin(String Username, String Password){
         String password;
         ResultSet rs;
@@ -54,7 +52,7 @@ public class DBServer {
             return false;
         }
     }
-
+    //Adds user
     public String addUser(String Username, String Password) {
 //        maxid, if user exists
         ResultSet rs;
@@ -92,7 +90,7 @@ public class DBServer {
         }
         return "User added.";
     }
-
+    //sets bestscore of user
     public boolean setBestScore(String Username, int Score){
         try{
             Statement stat= con.createStatement();
@@ -104,7 +102,7 @@ public class DBServer {
         }
         return true;
     }
-
+    //increments matches of user
     public boolean incMatches(String Username){
         try{
             Statement stat= con.createStatement();
