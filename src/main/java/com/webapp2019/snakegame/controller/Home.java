@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class Home {
     @GetMapping("")
@@ -28,11 +31,13 @@ public class Home {
     }
 
     @PostMapping("/signin")
-    public String signInSubmit(@ModelAttribute SignIn user) {
+    public String signInSubmit(@ModelAttribute SignIn user, HttpServletResponse httpResponse) {
         if(SnakeGameApplication.db_server.checkLogin(user.getUser(), user.getPassword()))
         {
             System.out.println("signed in");
             SnakeGameApplication.users.add(user);
+            Cookie cookie = new Cookie("username",user.getUser());
+            httpResponse.addCookie(cookie);
             return "redirect:game";
         }
         else
@@ -56,7 +61,7 @@ public class Home {
 
     @PostMapping("/signup")
     public ModelAndView signUp(@ModelAttribute SignIn user) {
-        ModelAndView modelAndView = new ModelAndView("User signed up");
+        ModelAndView modelAndView = new ModelAndView("usersignedup");
         String success= SnakeGameApplication.db_server.addUser(user.getUser(),user.getPassword());
         modelAndView.addObject("message", success);
         System.out.println(success);

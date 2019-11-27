@@ -65,12 +65,10 @@ function hideBtnReady() {
     },100);
 }
 
-
 function onClickReady() {
     socket.send('READY');
 
 }
-
 
 function initWindow() {
     canvas.width = CELL_SIZE * MAP_SIZE_X;
@@ -110,7 +108,6 @@ function closePlayerItem(item) {
     }, 100);
 }
 
-
 function addNewPlayer(player) {
     listIds.push(player.id);
     var listItem = document.createElement('li');
@@ -134,7 +131,6 @@ function addNewPlayer(player) {
         listItem.className = listItem.className + " show";
     }, 10);
 }
-
 
 function drawPlayers(gameData) {
     drawBaseMap();
@@ -269,6 +265,7 @@ function subscribeToWebSocket() {
             canvas.className = "show";
             document.getElementById("div_startAGame").className="show";
             showMessage('ONLINE');
+            document.getElementById("console").innerHTML =getCookie("username");
             socket.send('GUEST');
         };
         socket.onmessage = function (msg) {
@@ -319,3 +316,17 @@ function w3_open() {
 function w3_close() {
     mySidebar.style.display = "none";
 }
+
+
+//cookies
+function getCookie(name) {
+    var cookies = document.cookie.split(';');
+    for(var i=0 ; i < cookies.length ; ++i) {
+        var pair = cookies[i].trim().split('=');
+        if(pair[0] == name)
+            return pair[1];
+    }
+    return null;
+};
+
+

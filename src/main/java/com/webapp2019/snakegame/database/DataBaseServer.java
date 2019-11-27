@@ -8,10 +8,8 @@ public class DataBaseServer {
     public DataBaseServer() {
         String host="jdbc:mysql://localhost:3306/userdatabase";
     //server constructor
-    public DBServer() {
-        String host="jdbc:mysql://localhost:3306/world";
         String uName ="root";
-        String uPass ="Webesalak.19";
+        String uPass ="1234";
         try {
             con = DriverManager.getConnection(host, uName, uPass);
             System.out.println("Connection successfully created.");

@@ -41,11 +41,9 @@ public class Game {
         return achievement;
     }
 
-
     public GameStateEnum getGameState() {
         return gameState;
     }
-
 
     public static Game getInstance() {
         return instance;
@@ -74,7 +72,6 @@ public class Game {
         Color color = new Color(random.nextDouble(),random.nextDouble(), random.nextDouble(), 1.0);
         return "#"+color.toString().substring(2);
     }
-
 
     public void init() {
         players = new ConcurrentHashMap<>();
@@ -158,7 +155,6 @@ public class Game {
         }
     }*/
 
-
     public Point getRandFreeCoord() {
         Random rand = new Random();
         int index = rand.nextInt(freeCoords.size());
@@ -180,8 +176,6 @@ public class Game {
             player.killPlayer();
         }
     }
-
-
 
     synchronized private boolean readyToPlay() {
         if(numOfActivePlayers>1) {
@@ -233,7 +227,6 @@ public class Game {
 //            player.send(jsonString);
 //        }
     }
-
 
     public void removeFreeCoord(Point point) {
         freeCoords.remove(point);
