@@ -9,7 +9,7 @@ public class DataBaseServer {
         String host="jdbc:mysql://localhost:3306/userdatabase";
     //server constructor
         String uName ="root";
-        String uPass ="1234";
+        String uPass ="Webesalak.19";
         try {
             con = DriverManager.getConnection(host, uName, uPass);
             System.out.println("Connection successfully created.");

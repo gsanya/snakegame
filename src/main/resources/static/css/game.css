@@ -127,3 +127,10 @@ div.hide{
 #bar_signout{
     visibility: hidden;
 }
+#icon_signin{
+    margin-right: 20px;
+    visibility: hidden;
+}
+#btn_signin{
+    min-width: 100px;
+}

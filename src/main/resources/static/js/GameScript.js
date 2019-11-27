@@ -291,7 +291,7 @@ function subscribeToWebSocket() {
 
 
             showMessage('Server offline.');
-            document.getElementById("HTML").className = "grayscale";
+            document.getElementById("game").className = "grayscale";
             sleep(2000);
             subscribeToWebSocket();
         };
@@ -331,8 +331,8 @@ function checkCookie() {
     var user = getCookie("username");
     if (user !== "") {
         updateSignedInUser(user);
-        alert("Welcome again " + user);
     } else {
+        alert("Sign In");
         user = prompt("Please enter your name:", "");
         if (user !== "" && user != null) {
             setCookie("username", user, 365);
@@ -343,12 +343,19 @@ function checkCookie() {
 //egyelőre gány módon összevissza
 
 function updateSignedInUser(user) {
-    playerName.innerHTML = user;
-    document.getElementById('btn_signin').innerHTML = user;
-    document.getElementById('bar_signup').style.visibility = "visible";
+    playerName.value = user;
+    let btnSignIn = document.getElementById('btn_signin');
+    btnSignIn.innerHTML = user;
+    btnSignIn.href = "";
+    document.getElementById('bar_signout').style.visibility = "visible";
+    document.getElementById('icon_signin').style.visibility = "visible";
 }
 
 
 function onClickSignOut() {
-
+    let btnSignIn = document.getElementById('btn_signin');
+    btnSignIn.innerHTML = "SIGN IN";
+    btnSignIn.href = "signin";
+    document.getElementById('bar_signout').style.visibility = "hidden";
+    document.getElementById('icon_signin').style.visibility = "hidden";
 }

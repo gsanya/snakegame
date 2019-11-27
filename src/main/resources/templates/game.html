@@ -18,16 +18,15 @@
 
         <!-- Right-sided buttons -->
         <div class="w3-right w3-hide-small w3-dropdown-hover">
-            <a id="btn_signin" class="w3-button" th:href="@{signin}">SIGN IN</a>
-            <div id="bar_signout" class="w3-dropdown-content w3-bar-block">
-                <a onclick="onClickSignOut()" class="w3-bar-item w3-button" >SIGN OUT</a>
+            <div class="input-container">
+                <i id="icon_signin" class="fa fa-user icon"></i>
+                <a id="btn_signin" class="w3-button" th:href="@{signin}"> SIGN IN </a>
+
+                <div id="bar_signout" class="w3-dropdown-content w3-bar-block">
+                    <button onclick="onClickSignOut()" class="w3-bar-item w3-button" >SIGN OUT</button>
+                </div>
             </div>
         </div>
-        <!-- Hide right-floated links on small screens and replace them with a menu icon -->
-
-        <!--<a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">-->
-        <!--<i class="fa fa-bars"></i>-->
-        <!--</a>-->
     </div>
 </div>
 
