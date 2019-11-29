@@ -17,9 +17,8 @@
                 <th>Games</th>
                 <th>Points</th>
             </tr>
-            <span th:utext="${leaderBoard}" th:remove="tag">title</span>
+            <span th:utext="${leaderBoard}" th:remove="tag"></span>
         </table>
-
         <a th:href="@{game}">Back to Game page.</a><br>
     </div>
 </header>

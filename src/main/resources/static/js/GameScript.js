@@ -325,11 +325,11 @@ function onClickReady() {
 function onClickSignOut() {
     let btnSignIn = document.getElementById('btn_signin');
     btnSignIn.innerHTML = "SIGN IN";
-    btnSignIn.href = "";
+    btnSignIn.href = "/signin";
 
     document.getElementById('bar_signout').style.visibility = "hidden";
     document.getElementById('icon_signin').style.visibility = "hidden";
-    socket.send("SIGNOUT "+playerName.innerHTML);
+    socket.send("SIGNOUT "+userName);
 
     playerName.innerHTML= "GUEST";
 
