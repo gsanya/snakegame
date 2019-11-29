@@ -44,6 +44,7 @@ public class WebsocketServerSnake extends WebSocketServer {
             game.removeWatcher(connection);
         } else {
             game.removePlayer(connection);
+            game.removeWatcher(connection);
         }
 
         try{
@@ -62,10 +63,6 @@ public class WebsocketServerSnake extends WebSocketServer {
         catch (WebsocketNotConnectedException e){
             e.printStackTrace();
         }
-
-
-        //if the value of the players map is null, then adds the message, otherwise do nothing - first message must be the player name
-        //players.putIfAbsent(connection, message);
         switch (message) {
             case "GUEST":
                 game.addWatcher(connection);
@@ -93,24 +90,26 @@ public class WebsocketServerSnake extends WebSocketServer {
             if(game.getPlayer(connection)!=null)
             {
                 game.removePlayer(connection);
+                game.removeWatcher(connection);
             }
             return;
         }
 
         Player player = game.getPlayer(connection);
 
+        //we add the player if not yet added
         if (player == null) {
             if (game.getGameState() == GameStateEnum.WAITING_FOR_PLAYERS) {
 
-                System.out.println(connection.hashCode()+" connected. Connections: "
-                        + (Game.getInstance().numOfActivePlayers+1));
+                System.out.println(connection.hashCode()+" connected. Connections: "+ (Game.getInstance().numOfActivePlayers+1));
+
                 game.addNewPlayer(connection,message);
                 connection.send(String.valueOf(connection.hashCode()));
 
             } else {
                 connection.send("Your game is ended!");
             }
-
+        //if READY was sent (player has already played a game)
         } else {
             if (game.getGameState() == GameStateEnum.WAITING_FOR_PLAYERS && message.equals("READY")) {
                 if(player.isGameOver()) {
@@ -120,6 +119,7 @@ public class WebsocketServerSnake extends WebSocketServer {
                 }
                 player.setReady(true);
                 System.out.println("Player " + player.getId() + " is ready!");
+            //the message must be the keycode
             } else if (!message.equals("READY")){
                 player.setKeyCode(message);
             }

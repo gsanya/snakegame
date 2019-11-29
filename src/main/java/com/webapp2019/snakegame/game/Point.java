@@ -2,30 +2,15 @@ package com.webapp2019.snakegame.game;
 
 import java.util.Random;
 
+//Basic point class with some basic functions
+//Point represents a part of the snake
 public class Point {
     private int x = 0;
     private int y = 0;
 
-    Point() {
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     Point(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-
-    void initRand() {
-        Random rand = new Random();
-        this.x = rand.nextInt(Game.MAP_SIZE_X);
-        this.y = rand.nextInt(Game.MAP_SIZE_Y);
     }
 
     @Override
@@ -61,4 +46,11 @@ public class Point {
         return x >= Game.MAP_SIZE_X || x < 0 || y >= Game.MAP_SIZE_Y || y < 0;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

@@ -9,14 +9,9 @@ import static javafx.scene.input.KeyCode.*;
 
 
 public class Player {
-    public static final KeyCode[][] KEY_CUTS = {
-            {A, LEFT, J, NUMPAD4},
-            {D, RIGHT, L, NUMPAD6},
-            {W, UP, I, NUMPAD8},
-            {S, DOWN, K, NUMPAD5}
-    };
-
+    //we can
     private int id;
+    //it is not used
     private String name;
 
     private boolean gameOver;
@@ -29,72 +24,14 @@ public class Player {
     private String color;
     private String keyCode;
 
-    public String getColor() {
-        return color;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public eDirection getDir() {
-        return dir;
-    }
-
-    public Point getHead() {
-        return head;
-    }
-
-    public List<Point> getTail() {
-        return tail;
-    }
-
-    public boolean isReady() {
-        return ready;
-    }
-
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
-    public void setGameOver() {
-        this.gameOver = true;
-    }
-
-    public void killPlayer(){
-        gameOver=true;
-        ready=false;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public void setKeyCode(String keyCode) {
-        this.keyCode = keyCode;
-    }
-
-    synchronized public void setReady(boolean ready) {
-        Game.getInstance().timeInMillis=System.currentTimeMillis();
-        this.ready = ready;
-    }
-
-    public void decreaseId(){this.id--;}
-
-    public void increaseScore(int value){
-        score+=value;
-    }
-
+    //constructor
     public Player(Point head, int id, String color, String playerName){
-        this(head,id);
+        reinitPlayer(head, id);
         this.color = color;
         this.name = playerName;
     }
 
+    //reinitializes player
     public void reinitPlayer(Point head, int id){
         gameOver = false;
         this.id = id;
@@ -111,10 +48,7 @@ public class Player {
         score = 0;
     }
 
-    public Player(Point head, int id) {
-        reinitPlayer(head, id);
-    }
-
+    //sets the direction of the player according to the keyCode
     synchronized public void stepPlayer() {
         if (keyCode == null) return;
         switch (keyCode) {
@@ -147,10 +81,14 @@ public class Player {
         }
     }
 
+    //moves the player (tail and head, and check if it hit the wall or itself)
     void move() {
         Game game = Game.getInstance();
+        //move the tail to the head
         tail.add(0, new Point(head.getX(), head.getY()));
+        //move the head
         head.move(dir);
+        //check if hit walls
         if (head.outOfBorder()) {
             killPlayer();
         }
@@ -159,9 +97,11 @@ public class Player {
             game.setAchievement(new Achievement(game.getRandFreeCoord()));
             score++;
         } else {
+            //end of tail moved
             game.addFreeCoord(tail.get(tail.size() - 1));
             tail.remove(tail.size() - 1);
         }
+        //check if hit itself
         for (Point point : tail) {
             if (head.equals(point)) {
                 killPlayer();
@@ -170,8 +110,10 @@ public class Player {
         }
     }
 
+    //checks if the player hit another player. If yes, it kills the player.
     void collisionDetection(Player other) {
         if (head.equals(other.getHead())) {
+            //we shouldn't add it twice, so only one player will free up the coordinates
             if (id < other.getId()) {
                 Game.getInstance().addFreeCoord(head);
             }
@@ -187,8 +129,60 @@ public class Player {
         }
     }
 
-    public String getName()
-    {
-        return name;
+    //increments the score
+    public void increaseScore(int value){
+        score+=value;
     }
+
+    //decrements id
+    public void decreaseId(){this.id--;}
+
+    //sets ready state, and sets the current time
+    synchronized public void setReady(boolean ready) {
+        Game.getInstance().timeInMillis=System.currentTimeMillis();
+        this.ready = ready;
+    }
+
+    //kills the player
+    public void killPlayer(){
+        gameOver=true;
+        ready=false;
+    }
+
+
+    //basic getters
+    public String getColor() {
+        return color;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Point getHead() {
+        return head;
+    }
+
+    public List<Point> getTail() {
+        return tail;
+    }
+
+    public boolean isReady() {
+        return ready;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+
+    //basic setters
+    public void setKeyCode(String keyCode) {
+        this.keyCode = keyCode;
+    }
+
 }
