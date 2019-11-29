@@ -80,7 +80,8 @@ function subscribeToWebSocket() {
             }
             else
             {
-                playerName.innerHTML = "GUEST";
+                userName="GUEST";
+                playerName.innerHTML = userName;
             }
             // join game as watcher
             socket.send('JOIN');

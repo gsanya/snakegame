@@ -72,6 +72,8 @@ public class Home {
 
     @GetMapping("/leaderboard")
     public String leaderBoard() {
+        String table= SnakeGameApplication.db_server.getLeaderBoard();
+        System.out.println(table);
         return "leaderboard";
     }
 }

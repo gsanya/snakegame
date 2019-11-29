@@ -2,6 +2,7 @@ package com.webapp2019.snakegame.game;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.webapp2019.snakegame.SnakeGameApplication;
 import javafx.scene.paint.Color;
 
 import org.java_websocket.WebSocket;
@@ -25,7 +26,7 @@ public class Game {
     public static boolean STOP = false;
     public long timeInMillis;
 
-    //every connection starts as watcher, than when play is pressed, it will be gamer
+    //every connection starts as watcher, than when play is pressed, it will be a player
     private static Map<WebSocket, Player> players = new ConcurrentHashMap<>();
     private static List<WebSocket> watchers = new ArrayList<>();
 
@@ -331,6 +332,24 @@ public class Game {
                 gameState = GameStateEnum.ENDING;
                 System.out.println("Game is ended");
                 refreshGUI();
+                //save bestscore and increment matches
+                for(Player player:players.values())
+                {
+                    //if a guest won it doesn't really matter
+                    if(!player.getName().equals("GUEST"))
+                    {
+                        SnakeGameApplication.db_server.incMatches(player.getName());
+                        if(SnakeGameApplication.db_server.getBestScore(player.getName())<player.getScore())
+                        {
+                            if(SnakeGameApplication.db_server.getBestScore(player.getName())==-1) {
+                                System.out.println("Can't save score to database, something went wrong.");
+                            }
+                            else{
+                                SnakeGameApplication.db_server.setBestScore(player.getName(),player.getScore());
+                            }
+                        }
+                    }
+                }
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {

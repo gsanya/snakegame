@@ -179,6 +179,8 @@ public class Player {
         return gameOver;
     }
 
+    public String getName(){return name;}
+
 
     //basic setters
     public void setKeyCode(String keyCode) {

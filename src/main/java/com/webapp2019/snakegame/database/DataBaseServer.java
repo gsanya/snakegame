@@ -1,5 +1,7 @@
 package com.webapp2019.snakegame.database;
 
+import org.apache.catalina.User;
+
 import java.sql.*;
 
 public class DataBaseServer {
@@ -57,7 +59,6 @@ public class DataBaseServer {
 
     //Adds user
     public String addUser(String Username, String Password) {
-//        maxid, if user exists
         ResultSet rs;
         if(Username.equals("")&&Password.equals(""))
             return "Please type in a username and a password!";
@@ -65,6 +66,8 @@ public class DataBaseServer {
             return "Please type in a username!";
         if(Password.equals(""))
             return "Please type in a password!";
+        if(Username.contains("SIGNOUT")||Username.contains("GUEST"))
+            return "Sorry, you can't use this username."; //these are control string, so it wouldn't be nice
         //query the database for the username
         try{
             Statement stat= con.createStatement();
@@ -146,6 +149,34 @@ public class DataBaseServer {
         }
     }
 
+    public String getLeaderBoard(){
+        ResultSet rs;
+        String[] userNames;
+        try{
+            Statement stat= con.createStatement();
+            String sql = "SELECT username, bestscore, matches FROM userdatabase.users;";
+            rs=stat.executeQuery(sql);
+        } catch (SQLException e){
+            e.printStackTrace();
+            return "something went wrong";
+        }
+        try {
+            if(!rs.next());
+               return "something went wrong";
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        try {
+            Array array=rs.getArray("username");
+            userNames = (String[])array.getArray();
+        }catch (SQLException e){
+            e.printStackTrace();
+            return "something went wrong";
+        }
+        return "";
+    }
+
+    //
 //    TODO: getAll username games scores
 }
 
