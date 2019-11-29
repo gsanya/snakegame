@@ -63,6 +63,7 @@ public class WebsocketServerSnake extends WebSocketServer {
             e.printStackTrace();
         }
 
+
         //if the value of the players map is null, then adds the message, otherwise do nothing - first message must be the player name
         //players.putIfAbsent(connection, message);
         switch (message) {
