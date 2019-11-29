@@ -145,5 +145,7 @@ public class DataBaseServer {
             return -1;
         }
     }
+
+//    TODO: getAll username games scores
 }
 

@@ -69,4 +69,9 @@ public class Home {
         System.out.println(success);
         return modelAndView;
     }
+
+    @GetMapping("/leaderboard")
+    public String leaderBoard() {
+        return "leaderboard";
+    }
 }

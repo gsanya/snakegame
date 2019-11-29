@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel='stylesheet' type='text/css' href="../static/css/style.css" th:href="@{/css/style.css}">
+    <title>Leader Board</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<header class="bgimg-1 w3-display-container w3-grayscale-min">
+    <div class="w3-card-4 card">
+
+        <h1>Leader Board</h1>
+
+        <table class="w3-table-all w3-large  w3-striped w3-bordered  w3-centered .table">
+            <tr class="w3-light-grey">
+                <th>Name</th>
+                <th>Games</th>
+                <th>Points</th>
+            </tr>
+            <tr>
+                <td class="table">Jill</td>
+                <td class="table">5</td>
+                <td class="table">120</td>
+            </tr>
+        </table>
+
+        <a th:href="@{game}">Back to Game page.</a><br>
+    </div>
+</header>
+</body>
+</html>
