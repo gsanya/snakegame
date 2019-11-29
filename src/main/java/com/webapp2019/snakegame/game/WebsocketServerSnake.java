@@ -18,8 +18,6 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
-import java.util.HashSet;
-import java.util.Set;
 
 public class WebsocketServerSnake extends WebSocketServer {
 
@@ -67,7 +65,7 @@ public class WebsocketServerSnake extends WebSocketServer {
         //if the value of the players map is null, then adds the message, otherwise do nothing - first message must be the player name
         //players.putIfAbsent(connection, message);
         switch (message) {
-            case "GUEST":
+            case "JOIN":
                 game.addWatcher(connection);
                 System.out.println("New Watcher");
                 return;
