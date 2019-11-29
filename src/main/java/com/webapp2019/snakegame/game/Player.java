@@ -28,6 +28,7 @@ public class Player {
     private int score;
     private String color;
     private String keyCode;
+
     public String getColor() {
         return color;
     }
@@ -88,7 +89,6 @@ public class Player {
         score+=value;
     }
 
-
     public Player(Point head, int id, String color, String playerName){
         this(head,id);
         this.color = color;
@@ -147,7 +147,6 @@ public class Player {
         }
     }
 
-
     void move() {
         Game game = Game.getInstance();
         tail.add(0, new Point(head.getX(), head.getY()));
@@ -171,12 +170,6 @@ public class Player {
         }
     }
 
-    /*void deletePlayer(Game game) {
-        for (Point point : tail) {
-            game.addFreeCoord(point);
-        }
-    }*/
-
     void collisionDetection(Player other) {
         if (head.equals(other.getHead())) {
             if (id < other.getId()) {
@@ -194,5 +187,8 @@ public class Player {
         }
     }
 
-
+    public String getName()
+    {
+        return name;
+    }
 }

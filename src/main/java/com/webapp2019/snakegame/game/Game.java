@@ -149,12 +149,6 @@ public class Game {
         return players.size();
     }
 
-   /* public void initPlayer(){
-        for (int i = 0; i < players.size(); i++) {
-            players.add(new Player(getRandFreeCoord(), i));
-        }
-    }*/
-
     public Point getRandFreeCoord() {
         Random rand = new Random();
         int index = rand.nextInt(freeCoords.size());
@@ -162,10 +156,6 @@ public class Game {
         freeCoords.remove(index);
         return point;
     }
-
-    /*public List<Player> getPlayers() {
-        return players;
-    }*/
 
     private void printDiedPlayer(Player player){
         System.out.println("Player "+player.getId()+" is died, more " + (numOfActivePlayers-1));

@@ -37,6 +37,8 @@ public class Home {
             System.out.println("signed in");
             SnakeGameApplication.users.add(user);
             Cookie cookie = new Cookie("username",user.getUser());
+            cookie.setMaxAge(-1);
+            int maxAge= cookie.getMaxAge();
             httpResponse.addCookie(cookie);
             return "redirect:game";
         }

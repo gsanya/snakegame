@@ -7,7 +7,7 @@ let MAP_SIZE_Y = 35;
 let BODY_SCALE = 0.5;
 let scoreBoard = document.getElementById('scoreBoard');
 
-let playerName = document.getElementById('playerNameInput');
+let playerName = document.getElementById('playerName');
 let playerColor = document.getElementById('playerColorPicker');
 
 let btnPlay = document.getElementById('connectAsPlayer');
@@ -41,7 +41,7 @@ document.addEventListener('keydown', function(event) {
 function onClickPlay() {
     if(!playing) {
         showBtnReady();
-        socket.send('{"name":"' + playerName.value + '","color":"' + playerColor.value + '"}');
+        socket.send('{"name":"' + playerName.innerHTML + '","color":"' + playerColor.value + '"}');
         btnPlay.textContent = "LEAVE";
         playing=true;
     }
@@ -69,7 +69,6 @@ function hideBtnReady() {
 
 function onClickReady() {
     socket.send('READY');
-
 }
 
 function initWindow() {
@@ -166,16 +165,6 @@ function drawPlayers(gameData) {
 
     for (player of gameData.players) {
 
-
-        // if(Number(player.id)>Number(index)){
-        //     removePlayer(player.id);
-        //     //numOfPlayers--;
-        //     index=player.id;
-        // }
-        // if(player.id>=numOfPlayers){
-        //     numOfPlayers=index+1;
-        //     addNewPlayer(player);
-        // }
         listItem = document.getElementById(player.id);
         if (player.gameOver) {
             //index++;
@@ -259,24 +248,39 @@ function showMessage(text) {
 
 function subscribeToWebSocket() {
     if ('WebSocket' in window) {
-        socket = new WebSocket('ws://'+ self.location.hostname + ':4444');
+        socket = new WebSocket('ws://localhost:4444');
+
         socket.onopen = function () {
             document.getElementById("game").className = "";
             drawBaseMap();
             //canvas.style.display="inline-block";
             canvas.className = "show";
-            document.getElementById("div_startAGame").className="show";
+            document.getElementById("div_startAGame").className = "show";
             showMessage('ONLINE');
-            checkCookie();
+            var username = getCookie("username");
+            if (username != "-1")
+            {
+                //socket.send(username);
+                updateSignedInUser(username);
+            }
+            else
+            {
+                //socket.send('GUEST');
+                playerName.innerHTML = 'GUEST';
+            }
             socket.send('GUEST');
+
         };
+
         socket.onmessage = function (msg) {
             //showMessage(msg.data);
             refreshGUI(JSON.parse(msg.data));
         };
+
         socket.onerror = function (msg) {
             showMessage('Sorry but there was an error.');
         };
+
         socket.onclose = function () {
             //canvas.style.display="none";
             canvas.className = "";
@@ -295,6 +299,7 @@ function subscribeToWebSocket() {
             sleep(2000);
             subscribeToWebSocket();
         };
+
     } else {
         showMessage('Your browser does not support HTML5 WebSockets.');
     }
@@ -305,12 +310,6 @@ function sleep(time) {
 }
 
 //Cookies
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
 
 function getCookie(cname) {
     var name = cname + "=";
@@ -324,26 +323,20 @@ function getCookie(cname) {
             return c.substring(name.length, c.length);
         }
     }
-    return "";
+    return "-1";
 }
 
-function checkCookie() {
-    var user = getCookie("username");
-    if (user !== "") {
-        updateSignedInUser(user);
-    } else {
-        alert("Sign In");
-        user = prompt("Please enter your name:", "");
-        if (user !== "" && user != null) {
-            setCookie("username", user, 365);
-        }
-    }
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
 //egyelőre gány módon összevissza
 
 function updateSignedInUser(user) {
-    playerName.value = user;
+    playerName.innerHTML = user;
     let btnSignIn = document.getElementById('btn_signin');
     btnSignIn.innerHTML = user;
     btnSignIn.href = "";
@@ -351,11 +344,15 @@ function updateSignedInUser(user) {
     document.getElementById('icon_signin').style.visibility = "visible";
 }
 
-
 function onClickSignOut() {
     let btnSignIn = document.getElementById('btn_signin');
     btnSignIn.innerHTML = "SIGN IN";
-    btnSignIn.href = "signin";
+    btnSignIn.href = "";
+
     document.getElementById('bar_signout').style.visibility = "hidden";
     document.getElementById('icon_signin').style.visibility = "hidden";
+    socket.send("SIGNOUT "+playerName.innerHTML);
+
+    playerName.innerHTML= "GUEST";
+    //TODO set cookie to null
 }

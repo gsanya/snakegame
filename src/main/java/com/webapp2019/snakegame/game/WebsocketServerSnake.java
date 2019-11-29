@@ -10,6 +10,8 @@
 
 package com.webapp2019.snakegame.game;
 
+import com.webapp2019.snakegame.SnakeGameApplication;
+import com.webapp2019.snakegame.model.SignIn;
 import org.java_websocket.WebSocket;
 import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ClientHandshake;
@@ -68,19 +70,31 @@ public class WebsocketServerSnake extends WebSocketServer {
                 game.addWatcher(connection);
                 System.out.println("New Watcher");
                 return;
-            case "KILLAPPLICATION":
-                Game.STOP =true;
-                return;
-            case "RESTARTFUN":
-                //restartServer();
-                return;
             case "LEAVE":
                 game.removePlayer(connection);
                 return;
-            default:break;
+            default:
+                break;
         }
-        //if(message.charAt(0)!='{'){return;}
 
+        //delete signed out players (from logged in users, and also from player database in Game)
+        if (message.contains("SIGNOUT"))
+        {
+            String userName=message.substring(8);
+            for(SignIn user:SnakeGameApplication.users)
+            {
+                if(user.getUser().equals(userName))
+                {
+                    SnakeGameApplication.users.remove(user);
+                    break;
+                }
+            }
+            if(game.getPlayer(connection)!=null)
+            {
+                game.removePlayer(connection);
+            }
+            return;
+        }
 
         Player player = game.getPlayer(connection);
 
@@ -90,11 +104,6 @@ public class WebsocketServerSnake extends WebSocketServer {
                 System.out.println(connection.hashCode()+" connected. Connections: "
                         + (Game.getInstance().numOfActivePlayers+1));
                 game.addNewPlayer(connection,message);
-
-
-//                connection.send("Welcome to the Arena!\n"
-//                        + "Total No. of racers: " + game.getNumOfPlayers() + ".");
-
                 connection.send(String.valueOf(connection.hashCode()));
 
             } else {
@@ -111,11 +120,7 @@ public class WebsocketServerSnake extends WebSocketServer {
                 player.setReady(true);
                 System.out.println("Player " + player.getId() + " is ready!");
             } else if (!message.equals("READY")){
-                //System.out.println(player.getId() + ": " + message/*+" time:"+ System.currentTimeMillis()%10000*/);
-                //Game.getInstance().addKeyCode(message);
                 player.setKeyCode(message);
-                //}
-                //connection.send("The server has received the following message:"+ message);
             }
         }
     }
