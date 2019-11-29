@@ -71,9 +71,10 @@ public class Home {
     }
 
     @GetMapping("/leaderboard")
-    public String leaderBoard() {
+    public ModelAndView leaderBoard() {
+        ModelAndView modelAndView = new ModelAndView("leaderboard");
         String table= SnakeGameApplication.db_server.getLeaderBoard();
-        System.out.println(table);
-        return "leaderboard";
+        modelAndView.addObject("leaderBoard", table);
+        return modelAndView;
     }
 }

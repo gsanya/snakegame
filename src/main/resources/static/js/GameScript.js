@@ -37,16 +37,16 @@ let listIds = [];
 /*Keydown event listener*/
 document.addEventListener('keydown', function(event) {
     if(playing) {
-        if (event.key === 'a' || event.key === 'ArrowLeft') {
+        if (event.key == 'a' || event.key == 'ArrowLeft') {
             socket.send('LEFT');
         }
-        else if (event.key === 'w' || event.key === 'ArrowUp') {
+        else if (event.key == 'w' || event.key == 'ArrowUp') {
             socket.send('UP');
         }
-        else if (event.key === 'd' || event.key === 'ArrowRight') {
+        else if (event.key == 'd' || event.key == 'ArrowRight') {
             socket.send('RIGHT');
         }
-        else if (event.key === 's' || event.key === 'ArrowDown') {
+        else if (event.key == 's' || event.key == 'ArrowDown') {
             socket.send('DOWN');
 
         }

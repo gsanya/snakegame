@@ -3,6 +3,7 @@ package com.webapp2019.snakegame.database;
 import org.apache.catalina.User;
 
 import java.sql.*;
+import java.util.Vector;
 
 public class DataBaseServer {
         public Connection con;
@@ -151,29 +152,53 @@ public class DataBaseServer {
 
     public String getLeaderBoard(){
         ResultSet rs;
-        String[] userNames;
+        Vector<String> users = new Vector<String>();
+        Vector<Integer> bestScores = new Vector<Integer>();
+        Vector<Integer> matches = new Vector<Integer>();
         try{
             Statement stat= con.createStatement();
-            String sql = "SELECT username, bestscore, matches FROM userdatabase.users;";
+            String sql = "select username,bestscore, matches from userdatabase.users";
             rs=stat.executeQuery(sql);
         } catch (SQLException e){
             e.printStackTrace();
             return "something went wrong";
         }
+        //System.out.println(rs.toString());
         try {
-            if(!rs.next());
+            if(!rs.next())
                return "something went wrong";
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        try {
-            Array array=rs.getArray("username");
-            userNames = (String[])array.getArray();
         }catch (SQLException e){
             e.printStackTrace();
             return "something went wrong";
         }
-        return "";
+        try {
+            while (rs.next())
+            {
+                users.add(rs.getString(1));
+                bestScores.add(rs.getInt(2));
+                matches.add(rs.getInt(3));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            return "something went wrong";
+        }
+        StringBuilder sb=new StringBuilder();
+        for (int i=0;i<users.size();i++)
+        {
+            sb.append("<tr>");
+            sb.append("<td class=\"table\">");
+            sb.append(users.get(i));
+            sb.append("</td>");
+            sb.append("<td class=\"table\">");
+            sb.append(bestScores.get(i).toString());
+            sb.append("</td>");
+            sb.append("<td class=\"table\">");
+            sb.append(matches.get(i).toString());
+            sb.append("</td>");
+            sb.append("</tr>");
+        }
+        return sb.toString();
+
     }
 
     //
