@@ -110,10 +110,9 @@ public class Game {
         if(!watchers.contains(connection)){
             watchers.add(connection);
         }
-        //numOfActivePlayers++;
     }
 
-    synchronized public void readdNewPlayer(WebSocket connection) {
+    synchronized public void reAddNewPlayer(WebSocket connection) {
         Player player=players.get(connection);
         player.reinitPlayer(getRandFreeCoord(), connection.hashCode());
         player.setReady(true);

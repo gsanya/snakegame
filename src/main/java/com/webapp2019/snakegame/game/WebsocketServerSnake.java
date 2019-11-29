@@ -24,18 +24,14 @@ public class WebsocketServerSnake extends WebSocketServer {
     private static int TCP_PORT = 4444;
     private static Game game;
 
-    private Set<WebSocket> connections;
-
     public WebsocketServerSnake() {
         super(new InetSocketAddress(TCP_PORT));
-        connections = new HashSet<>();
         game=Game.getInstance();
         game.init();
     }
 
     @Override
     public void onOpen(WebSocket connection, ClientHandshake handshake) {
-        connections.add(connection);
         System.out.println("New connection from " + connection.getRemoteSocketAddress().getAddress().getHostAddress());
     }
 
@@ -48,11 +44,8 @@ public class WebsocketServerSnake extends WebSocketServer {
             game.removePlayer(connection);
         }
 
-        System.out.println("SomeOne Disconnected. Connections: " + game.getNumOfPlayers());
-
-        connections.remove(connection);
         try{
-            System.out.println("Closed connection");
+            System.out.println("SomeOne Disconnected. Connections: " + game.getNumOfPlayers());
         }
         catch (WebsocketNotConnectedException e){
             e.printStackTrace();
@@ -67,28 +60,6 @@ public class WebsocketServerSnake extends WebSocketServer {
         catch (WebsocketNotConnectedException e){
             e.printStackTrace();
         }
-        for (WebSocket sock : connections) {
-            if(sock.equals(connection))
-            {
-                try {
-                    sock.send("Echo: "+message);
-                }
-                catch (WebsocketNotConnectedException e){
-                    e.printStackTrace();
-                }
-
-            }
-            else
-            {
-                try{
-                    sock.send("New connection: " + connection.getRemoteSocketAddress());
-                }
-                catch (WebsocketNotConnectedException e){
-                    e.printStackTrace();
-                }
-            }
-        }
-
 
         //if the value of the players map is null, then adds the message, otherwise do nothing - first message must be the player name
         //players.putIfAbsent(connection, message);
@@ -133,7 +104,7 @@ public class WebsocketServerSnake extends WebSocketServer {
         } else {
             if (game.getGameState() == GameStateEnum.WAITING_FOR_PLAYERS && message.equals("READY")) {
                 if(player.isGameOver()) {
-                    game.readdNewPlayer(connection);
+                    game.reAddNewPlayer(connection);
                 }else if(!player.isReady()){
                     Game.getInstance().numOfActivePlayers++;
                 }
@@ -152,10 +123,6 @@ public class WebsocketServerSnake extends WebSocketServer {
     @Override
     public void onError(WebSocket connection, Exception ex) {
         //ex.printStackTrace();
-        if (connection != null) {
-            connections.remove(connection);
-            // do some thing if required
-        }
         try{
             ex.printStackTrace();
             System.out.println("ERROR");

@@ -30,7 +30,7 @@ CREATE TABLE `users` (
   `password` varchar(45) NOT NULL,
   `bestScore` varchar(45) DEFAULT NULL,
   `matches` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`userId`),
+  PRIMARY KEY (`userId`),users
   UNIQUE KEY `userId_UNIQUE` (`userId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
