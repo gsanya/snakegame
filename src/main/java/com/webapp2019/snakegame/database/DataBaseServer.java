@@ -3,9 +3,10 @@ package com.webapp2019.snakegame.database;
 import java.sql.*;
 
 public class DataBaseServer {
-    public Connection con;
-//Comment
-    public DataBaseServer() {
+        public Connection con;
+
+    //constructor
+    public DataBaseServer(){
         String host="jdbc:mysql://localhost:3306/userdatabase";
     //server constructor
         String uName ="root";
@@ -18,6 +19,7 @@ public class DataBaseServer {
         }
 
     }
+
     //check if Login exists
     public boolean checkLogin(String Username, String Password){
         String password;
@@ -52,6 +54,7 @@ public class DataBaseServer {
             return false;
         }
     }
+
     //Adds user
     public String addUser(String Username, String Password) {
 //        maxid, if user exists
@@ -90,18 +93,7 @@ public class DataBaseServer {
         }
         return "User added.";
     }
-    //sets bestscore of user
-    public boolean setBestScore(String Username, int Score){
-        try{
-            Statement stat= con.createStatement();
-            String sql ="UPDATE userdatabase.users SET bestscore='"+Score+"'WHERE userName = '"+Username+"';";
-            stat.executeUpdate(sql);
-        } catch (SQLException e){
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
+
     //increments matches of user
     public boolean incMatches(String Username){
         try{
@@ -113,6 +105,45 @@ public class DataBaseServer {
             return false;
         }
         return true;
+    }
+
+    //sets bestScore of user
+    public boolean setBestScore(String Username, int Score){
+        try{
+            Statement stat= con.createStatement();
+            String sql ="UPDATE userdatabase.users SET bestscore='"+Score+"'WHERE userName = '"+Username+"';";
+            stat.executeUpdate(sql);
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    //gets bestScore of user (return of -1 is error)
+    public int getBestScore(String Username){
+        ResultSet rs;
+        try{
+            Statement stat= con.createStatement();
+            String sql = "select * from userdatabase.users where username='"+Username+"';";
+            rs=stat.executeQuery(sql);
+        } catch (SQLException e){
+            e.printStackTrace();
+            return -1;
+        }
+        try{
+            if(!rs.next())
+                return -1;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return -1;
+        }
+        try{
+            return rs.getInt("bestScore");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }
 
