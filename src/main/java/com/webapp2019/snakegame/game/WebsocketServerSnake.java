@@ -18,8 +18,6 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
-import java.util.HashSet;
-import java.util.Set;
 
 public class WebsocketServerSnake extends WebSocketServer {
 
@@ -64,7 +62,7 @@ public class WebsocketServerSnake extends WebSocketServer {
             e.printStackTrace();
         }
         switch (message) {
-            case "GUEST":
+            case "JOIN":
                 game.addWatcher(connection);
                 System.out.println("New Watcher");
                 return;
