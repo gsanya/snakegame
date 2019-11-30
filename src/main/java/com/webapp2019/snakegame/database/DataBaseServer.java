@@ -1,6 +1,6 @@
 package com.webapp2019.snakegame.database;
 
-import org.apache.catalina.User;
+import com.webapp2019.snakegame.database.User;
 
 import java.sql.*;
 import java.util.Vector;
@@ -13,7 +13,7 @@ public class DataBaseServer {
         String host="jdbc:mysql://localhost:3306/userdatabase";
     //server constructor
         String uName ="root";
-        String uPass ="1234";
+        String uPass ="Webesalak.19";
         try {
             con = DriverManager.getConnection(host, uName, uPass);
             System.out.println("Connection successfully created.");
@@ -152,56 +152,41 @@ public class DataBaseServer {
 
     public String getLeaderBoard(){
         ResultSet rs;
-        Vector<String> users = new Vector<String>();
-        Vector<Integer> bestScores = new Vector<Integer>();
-        Vector<Integer> matches = new Vector<Integer>();
+        Vector<User> users = new Vector<User>();
+
         try{
             Statement stat= con.createStatement();
-            String sql = "select username,bestscore, matches from userdatabase.users";
+            String sql = "SELECT username,bestscore, matches FROM userdatabase.users ORDER BY bestscore DESC";
             rs=stat.executeQuery(sql);
         } catch (SQLException e){
-            e.printStackTrace();
-            return "something went wrong";
-        }
-        //System.out.println(rs.toString());
-        try {
-            if(!rs.next())
-               return "something went wrong";
-        }catch (SQLException e){
             e.printStackTrace();
             return "something went wrong";
         }
         try {
             while (rs.next())
             {
-                users.add(rs.getString(1));
-                bestScores.add(rs.getInt(2));
-                matches.add(rs.getInt(3));
+                users.add(new User(rs.getString(1),rs.getInt(3),rs.getInt(2)));
             }
         }catch (SQLException e){
             e.printStackTrace();
             return "something went wrong";
         }
         StringBuilder sb=new StringBuilder();
-        for (int i=0;i<users.size();i++)
-        {
+        for (User user : users) {
             sb.append("<tr>");
             sb.append("<td class=\"table\">");
-            sb.append(users.get(i));
+            sb.append(user.getName());
             sb.append("</td>");
             sb.append("<td class=\"table\">");
-            sb.append(bestScores.get(i).toString());
+            sb.append(user.getMatchNumber().toString());
             sb.append("</td>");
             sb.append("<td class=\"table\">");
-            sb.append(matches.get(i).toString());
+            sb.append(user.getBestScore().toString());
             sb.append("</td>");
             sb.append("</tr>");
         }
         return sb.toString();
 
     }
-
-    //
-//    TODO: getAll username games scores
 }
 
