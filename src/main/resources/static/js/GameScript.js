@@ -161,6 +161,7 @@ function updateSignedInUser(user) {
     btnSignIn.href = "";
     document.getElementById('bar_signout').style.visibility = "visible";
     document.getElementById('icon_signin').style.visibility = "visible";
+    document.getElementById('icon_signup').style.display = "none";
 }
 
 /*socket.onclose*/
@@ -329,6 +330,7 @@ function onClickSignOut() {
 
     document.getElementById('bar_signout').style.visibility = "hidden";
     document.getElementById('icon_signin').style.visibility = "hidden";
+    document.getElementById('icon_signup').style.display = "inline";
     socket.send("SIGNOUT "+userName);
 
     playerName.innerHTML= "GUEST";
@@ -360,3 +362,55 @@ function setCookie(cname, cvalue, exdays) {
     let expires = "expires="+d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
+
+
+
+/*phone test bullshit*/
+
+document.addEventListener('touchstart', handleTouchStart, false);
+document.addEventListener('touchmove', handleTouchMove, false);
+
+var xDown = null;
+var yDown = null;
+
+function getTouches(evt) {
+    return evt.touches ||             // browser API
+        evt.originalEvent.touches; // jQuery
+}
+
+function handleTouchStart(evt) {
+    const firstTouch = getTouches(evt)[0];
+    xDown = firstTouch.clientX;
+    yDown = firstTouch.clientY;
+};
+
+function handleTouchMove(evt) {
+    if(playing) {
+        if (!xDown || !yDown) {
+            return;
+        }
+
+        var xUp = evt.touches[0].clientX;
+        var yUp = evt.touches[0].clientY;
+
+        var xDiff = xDown - xUp;
+        var yDiff = yDown - yUp;
+
+        if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
+            if (xDiff > 0) {
+                socket.send('LEFT');
+            } else {
+                socket.send('RIGHT');
+            }
+        } else {
+            if (yDiff > 0) {
+                socket.send('UP');
+            } else {
+                socket.send('DOWN');
+            }
+        }
+        /* reset values */
+        xDown = null;
+        yDown = null;
+    }
+};

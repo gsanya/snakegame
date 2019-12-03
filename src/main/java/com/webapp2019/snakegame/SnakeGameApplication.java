@@ -18,15 +18,15 @@ public class SnakeGameApplication {
     public static Vector<SignIn> users;
 
     public static void main(String[] args) {
+        //Run the http server (the springapplication)
+        SpringApplication.run(SnakeGameApplication.class, args);
+        System.out.println("Springapplication is running.");
+
         users = new Vector<SignIn>();
 
         //DBserver is only used when querrying infromation, and when information is added
         db_server = new DataBaseServer();
         System.out.println("DB loaded.");
-
-        //Run the http server (the springapplication
-        SpringApplication.run(SnakeGameApplication.class, args);
-        System.out.println("Springapplication is running.");
 
         //Run the websocket server
         new WebsocketServerSnake().start();
